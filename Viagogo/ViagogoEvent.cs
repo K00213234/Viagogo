@@ -25,7 +25,7 @@ namespace Viagogo
         }
         internal List<Ticket> TicketsList1 { get => TicketsList; set => TicketsList = value; }
 
-        public ViagogoEvent(int id1, List<Ticket> ticketsList1)
+        public ViagogoEvent(List<Ticket> ticketsList1)
         {
             Id = Id1;
             TicketsList1 = ticketsList1;

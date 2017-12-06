@@ -19,7 +19,8 @@ namespace Viagogo
                 if (value <= 0)
                     throw new ArgumentOutOfRangeException(
                         $"{nameof(value)} must be bigger than 0.");
-                Price = value;
+
+                Price = value; 
             }
         }
 
