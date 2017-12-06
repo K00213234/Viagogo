@@ -20,5 +20,12 @@ namespace Viagogo
             PointY1 = pointY1;
             VEvent1 = vEvent1;
         }
+
+        public bool IsEmpty(int pointX, int pointY)
+        {
+            if ((PointX1 == pointX) && (PointY1 == pointY))
+                return false;
+            return true;
+        }
     }
 }
