@@ -9,6 +9,7 @@ namespace Viagogo
         static void Main(string[] args)
         {
             // Initialize values
+            // Assumption look for 5 nearest coordinates/events
             int NumOfNearestEvents = 5;
             DataSeed DataSeed = new DataSeed();
 
@@ -21,37 +22,52 @@ namespace Viagogo
             string inputCoordinates = Console.ReadLine();
 
             // Parse location
-            string[] splitedCoordinates = inputCoordinates.Split(',');
-            string PointX = (string)splitedCoordinates.GetValue(0);
-            string PointY = (string)splitedCoordinates.GetValue(1);
 
-            // Calculate distance between point of interest and other events
-            if ((Int32.TryParse(PointX, out int TargetPointX)) && (Int32.TryParse(PointY, out int TargetPointY)))
-                foreach (var coordinate in CoordinatesList)
-                {
-                    coordinate.CalculateDistance(TargetPointX, TargetPointY);
-                }
-            else
-                Console.WriteLine("String could not be parsed.");
+            string PointX  = null;
+            string PointY = null;
+            int TargetPointX = 0;
+            int TargetPointY = 0;
 
-            // Sort Coordinates List in DESC order by Distance
+            try {
+                string[] splitedCoordinates = inputCoordinates.Split(',');
+                PointX = (string)splitedCoordinates.GetValue(0);
+                PointY = (string)splitedCoordinates.GetValue(1);
+                TargetPointX = Int32.Parse(PointX);
+                TargetPointY = Int32.Parse(PointY);
+
+                if (CoordinatesList.Count != 0)
+                    foreach (var coordinate in CoordinatesList)
+                    {
+                        coordinate.CalculateDistance(TargetPointX, TargetPointY);
+                    }
+                else
+                    Console.WriteLine("String could not be parsed.");
+            }
+
+            catch (Exception)
+            {
+                Console.WriteLine("Wrong data or data format.\n Use format: 7,1");
+                Console.WriteLine("Using default values for coordinates " +
+                    "x:{0} and y:{1}", TargetPointX, TargetPointY);
+            }
+
+
+
+            // Sort Coordinates
             CoordinatesList.Sort((p, q) => p.Distance1.CompareTo(q.Distance1));
 
-            //Display A Data
-
+            // Get nearest Coordinates
             List<Coordinate> NearestCoordinates = CoordinatesList.GetRange(0,NumOfNearestEvents);
-
 
             foreach (var nearestCoordinate in NearestCoordinates)
             {   
                 // Get all tickets for the event
                 List<Ticket> Tickets = nearestCoordinate.ViagogoEvent1.TicketsList1;
-                // Sort Tickets in ASCENDING ORDER
-                Tickets.Sort((p, q) => -1 * p.Price1.CompareTo(q.Price1));
-          
+                // Sort Tickets
+                Tickets.Sort((p, q) => p.Price1.CompareTo(q.Price1));
                 // Display Event Id
                 Console.Write(" Event {0:000} - ", nearestCoordinate.ViagogoEvent1.Id1);
-                //Display Cheapest Ticket
+                // Display Cheapest Ticket
                 if(Tickets.Count == 0)
                 {
                     Console.Write("No tickets for the event");
