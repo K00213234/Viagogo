@@ -28,17 +28,10 @@ namespace Viagogo
             Distance1 = 0;
         }
 
-        public bool IsEmpty(int pointX, int pointY)
-        {
-            if ((PointX1 == pointX) && (PointY1 == pointY))
-                return false;
-            return true;
-        }
-
         public void CalculateDistance(int targetX, int targetY)
         {
            // Distance is calculated as Manhattan Distance
-           Distance1 = Math.Abs(PointX1 - targetX) - Math.Abs(PointY1 - targetY);
+           Distance1 = Math.Abs(PointX1 - targetX) + Math.Abs(PointY1 - targetY);
         }
     }
 }
