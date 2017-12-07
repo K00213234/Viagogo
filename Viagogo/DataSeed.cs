@@ -15,16 +15,19 @@ namespace Viagogo
         private static readonly int MaxAxisY;
         private static int MaxNumOfCoordinates;
 
+
         static DataSeed()
         {
             MaxTicketPrice = 300;
             MinTicketPrice = 0.01;
-            MaxNumOfTicketsPerEvent = 2;
-            MinAxisX = -1;
-            MinAxisY = -1;
-            MaxAxisX = 1;
-            MaxAxisY = 1;
+            MaxNumOfTicketsPerEvent = 0;
+            MinAxisX = -10;
+            MinAxisY = -10;
+            MaxAxisX = 10;
+            MaxAxisY = 10;
             MaxNumOfCoordinates = (Math.Abs(MinAxisX) + Math.Abs(MaxAxisX)) * (Math.Abs(MinAxisY) + Math.Abs(MaxAxisY));
+            // Assuming that X and Y are symetric
+            // CoordinateScalarX = Math.Abs(MinAxisX) + Math.Abs(MaxAxisX);
         }
 
         public static List<Coordinate> GenerateData()
@@ -50,16 +53,17 @@ namespace Viagogo
                     PointX = Random.Next(MinAxisX, MaxAxisX);
                     PointY = Random.Next(MinAxisY, MaxAxisY);
 
-                    Int64 uniq = ((PointY + 20) * 0x100000000) + (PointX + 20);
-                    CoordinateCreated = CoordinatesSet.Add(uniq);
+                    // Create uniq coordinate identifier 
+                    Int64 Uniq = (PointY * 0x100000000) + PointX;
+                    CoordinateCreated = CoordinatesSet.Add(Uniq);
                 } while (CoordinateCreated == false);
 
                 // Generate List of Tickets
                 List<Ticket> TicketsList = new List<Ticket>();
                 for (var j = 0; j < MaxNumOfTicketsPerEvent; j++)
                 {
-                    Random Random3 = new Random();
-                    double RPrice = Random3.NextDouble();
+                    Random RandomDouble = new Random();
+                    double RPrice = RandomDouble.NextDouble();
                     double RandomPrice = MinTicketPrice + (RPrice * (MaxTicketPrice - MinTicketPrice));
                     Ticket Ticket = new Ticket(RandomPrice);
                     TicketsList.Add(Ticket);

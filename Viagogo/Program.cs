@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace Viagogo
 {
@@ -7,7 +8,8 @@ namespace Viagogo
     {
         static void Main(string[] args)
         {
-            // Initialize world values
+            // Initialize values
+            int NumOfNearestEvents = 5;
             DataSeed DataSeed = new DataSeed();
 
             // Generate Data
@@ -17,14 +19,11 @@ namespace Viagogo
             // Get location points
             Console.Write("Please Input Coordinates:");
             string inputCoordinates = Console.ReadLine();
-            string[] splitedCoordinates = inputCoordinates.Split(',');
 
+            // Parse location
+            string[] splitedCoordinates = inputCoordinates.Split(',');
             string PointX = (string)splitedCoordinates.GetValue(0);
             string PointY = (string)splitedCoordinates.GetValue(1);
-
-            Console.WriteLine(PointX);
-            Console.WriteLine(PointY);
-
 
             // Calculate distance between point of interest and other events
             if ((Int32.TryParse(PointX, out int TargetPointX)) && (Int32.TryParse(PointY, out int TargetPointY)))
@@ -35,17 +34,35 @@ namespace Viagogo
             else
                 Console.WriteLine("String could not be parsed.");
 
-            // Sort Coordinates List
+            // Sort Coordinates List in DESC order by Distance
             CoordinatesList.Sort((p, q) => p.Distance1.CompareTo(q.Distance1));
 
-            //Display All Data
+            //Display A Data
 
-            foreach (var coordinate in CoordinatesList)
-            {
-                Console.Write(" Coordinates: X({0}), Y({1})", coordinate.PointX1, coordinate.PointY1);
+            List<Coordinate> NearestCoordinates = CoordinatesList.GetRange(0,NumOfNearestEvents);
 
-                Console.Write(" - Event No: {0}", coordinate.ViagogoEvent1.Id1);
-                Console.WriteLine(" - Distance: {0}", coordinate.Distance1);
+
+            foreach (var nearestCoordinate in NearestCoordinates)
+            {   
+                // Get all tickets for the event
+                List<Ticket> Tickets = nearestCoordinate.ViagogoEvent1.TicketsList1;
+                // Sort Tickets in ASCENDING ORDER
+                Tickets.Sort((p, q) => -1 * p.Price1.CompareTo(q.Price1));
+          
+                // Display Event Id
+                Console.Write(" Event {0:000} - ", nearestCoordinate.ViagogoEvent1.Id1);
+                //Display Cheapest Ticket
+                if(Tickets.Count == 0)
+                {
+                    Console.Write("No tickets for the event");
+                }
+                else
+                {
+                    Console.Write(Tickets[0].Price1.ToString("C", CultureInfo.CreateSpecificCulture("en-US")));
+                }
+
+                //Display Distance
+                Console.WriteLine(", Distance {0}", nearestCoordinate.Distance1);
             }
 
         }
