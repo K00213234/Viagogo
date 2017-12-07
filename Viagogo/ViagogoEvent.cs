@@ -18,13 +18,13 @@ namespace Viagogo
         public ViagogoEvent()
         {
             PreviousId++;
-            this.Id = PreviousId;
+            Id = PreviousId;
         }
 
         public ViagogoEvent(List<Ticket> ticketsList1)
         {
             PreviousId++;
-            this.Id = PreviousId;
+            Id = PreviousId;
             TicketsList1 = ticketsList1;
         }
     }

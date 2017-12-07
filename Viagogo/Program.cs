@@ -7,34 +7,23 @@ namespace Viagogo
     {
         static void Main(string[] args)
         {
-            // Create Tickets
-            Ticket Ticket = new Ticket(20.0);
-            Ticket Ticket2 = new Ticket(25.0);
-            Ticket Ticket3 = new Ticket(30.0);
+            // Initialize world values
+            DataSeed DataSeed = new DataSeed();
 
-            // Create List of Tickets
-            List<Ticket> TicketsList = new List<Ticket>();
-            TicketsList.Add(Ticket);
-            TicketsList.Add(Ticket2);
-            TicketsList.Add(Ticket3);
+            // Generate Data
+            List<Coordinate> CoordinatesList = new List<Coordinate>();
+            CoordinatesList = DataSeed.GenerateData();
 
-            // Create Event
-            ViagogoEvent anEvent = new ViagogoEvent(TicketsList);
-
-            // Create Coordinate
-            // check does is coordinate empty
-            Coordinate aCoordinate = new Coordinate(3, 4, anEvent);
-
-            // Display Test Data 
-            foreach(var t in anEvent.TicketsList1)
+            
+            // Display All Data
+            foreach (var coordinate in CoordinatesList)
             {
-                Console.WriteLine("Ticket - {0}", t.Price1);
+                Console.WriteLine("Event No: {0}", coordinate.ViagogoEvent1.Id1);
+                foreach(var ticket in coordinate.ViagogoEvent1.TicketsList1)
+                {
+                    Console.WriteLine("Ticket Price: {0}", ticket.Price1);
+                }
             }
-
-            Console.WriteLine("Event Id: {0}", anEvent.Id1);
-
-
-           
 
 
 
