@@ -6,27 +6,41 @@ namespace Viagogo
 {
     class Ticket
     {
-        private double Price;
+        private double price;
 
-        public double Price1
+        public double myexample
+        {
+            get;
+            set;
+        }
+        public double Price
         {
             get
             {
-                return Price;
+                return price;
             }
             set
             {
-                if (value <= 0)
-                    throw new ArgumentOutOfRangeException(
-                        $"{nameof(value)} must be bigger than 0.");
-
-                Price = value; 
+                price = value; 
             }
         }
 
         public Ticket(double price)
         {
-            Price1 = price;
+            Price = price;
+        }
+
+        public static Boolean IsValidPrice(Ticket ticket)
+        {
+            return (ticket.Price <= 0);
+        }
+
+        public static String Report(Ticket ticket)
+        {
+            if (!IsValidPrice(ticket))
+                return $"{nameof(ticket.Price)} must be bigger than 0.";
+            else
+                return $"It's grand!";
         }
     }
 }

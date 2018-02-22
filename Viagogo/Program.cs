@@ -64,7 +64,7 @@ namespace Viagogo
                 // Get all tickets for the event
                 List<Ticket> Tickets = nearestCoordinate.ViagogoEvent1.TicketsList1;
                 // Sort Tickets
-                Tickets.Sort((p, q) => p.Price1.CompareTo(q.Price1));
+                Tickets.Sort((p, q) => p.Price.CompareTo(q.Price));
                 // Display Event Id
                 Console.Write(" Event {0:000} - ", nearestCoordinate.ViagogoEvent1.Id1);
                 // Display Cheapest Ticket
@@ -74,7 +74,7 @@ namespace Viagogo
                 }
                 else
                 {
-                    Console.Write(Tickets[0].Price1.ToString("C", CultureInfo.CreateSpecificCulture("en-US")));
+                    Console.Write(Tickets[0].Price.ToString("C", CultureInfo.CreateSpecificCulture("en-US")));
                 }
 
                 //Display Distance
